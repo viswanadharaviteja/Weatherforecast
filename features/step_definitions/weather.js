@@ -74,8 +74,8 @@ Then(/^I should see the summarized view of min and max temparture of the day (.*
   var tempsumvalues;
   this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
 
-      daydetails[day-1].findElement(By.xpath("//div[@class='summary']")).then(function(daytempsummary){
-       return daytempsummary.findElements(By.xpath("//span[3]/span")).then(function(tempsummary){
+      daydetails[day-1].findElement(By.xpath(".//div[@class='summary']")).then(function(daytempsummary){
+       return daytempsummary.findElements(By.xpath(".//span[3]/span")).then(function(tempsummary){
         map(tempsummary, tempsummaryvalue => tempsummaryvalue.getAttribute("innerText"))
               .then(function(values) {
                 tempsumvalues = values.map(function(v) {
@@ -92,10 +92,14 @@ Then(/^I should see the summarized view of min and max temparture of the day (.*
             tempvalues = values.map(function(v) {
             return parseInt(v, 10);
           });
-          console.log('tempvalues',tempvalues);
-          console.log('tempsumvalues',tempsumvalues);
-          assert.equal(Math.max.apply(Math, tempvalues),Math.max.apply(Math, tempsumvalues))
-          assert.equal(Math.min.apply(Math, tempvalues),Math.min.apply(Math, tempsumvalues))
+          console.log('Detailed temperatures of the day are: ',tempvalues);
+          console.log('Temperature summary of the day is: ',tempsumvalues);
+          if(((Math.max.apply(Math, tempvalues)===Math.max.apply(Math, tempsumvalues)))&&((Math.min.apply(Math, tempvalues)===Math.min.apply(Math, tempsumvalues)))){
+            console.log('maximun and minimum temperature of the day is displayed in the summary');
+          }
+          else{
+            console.log("Sorry,couldnt compare the values");
+          }
         });
       });
     });
@@ -109,7 +113,7 @@ Then(/^I should see the summarized view of Aggregate rainfall of the day (.*)$/,
   var aggregateRainfall;
   this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
       daydetails[day-1].findElement(By.xpath(".//div[@class='summary']")).then(function(dayrainsummary){
-        return dayrainsummary.findElement(By.xpath("//span[5]/span[1]")).then(function(rainsummary){
+        return dayrainsummary.findElement(By.xpath(".//span[5]/span[1]")).then(function(rainsummary){
           rainsummary.getAttribute("innerText").then(function(rainsumvalue){
             aggregate = parseInt(rainsumvalue);
             return aggregate;
@@ -117,8 +121,8 @@ Then(/^I should see the summarized view of Aggregate rainfall of the day (.*)$/,
         });
       });
 
-    daydetails[day-1].findElement(By.xpath("//div[@class='details']")).then(function(dayraindetails){
-     return dayraindetails.findElements(By.xpath("//div[@class='detail']/span[5]/span[1]")).then(function(raindetails){
+    daydetails[day-1].findElement(By.xpath(".//div[@class='details']")).then(function(dayraindetails){
+     return dayraindetails.findElements(By.xpath(".//div[@class='detail']/span[5]/span[1]")).then(function(raindetails){
         map(raindetails, rainvalue => rainvalue.getAttribute("innerText"))
           .then(function(values) {
             rainvalues = values.map(function(v) {
@@ -134,13 +138,14 @@ Then(/^I should see the summarized view of Aggregate rainfall of the day (.*)$/,
   });
 
 });
+
 Then(/^I should see the summarized view of most dominant wind speed of the day (.*)$/,function (day) {
   var windspeed;
   var windvalues;
   this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
 
-      daydetails[day-1].findElement(By.xpath("//div[@class='summary']")).then(function(daywindsummary){
-        return daywindsummary.findElement(By.xpath("//span[4]/span[1]")).then(function(windsummary){
+      daydetails[day-1].findElement(By.xpath(".//div[@class='summary']")).then(function(daywindsummary){
+        return daywindsummary.findElement(By.xpath(".//span[4]/span[1]")).then(function(windsummary){
         windsummary.getAttribute("innerText").then(function(windsumvalue){
           windspeed = parseInt(windsumvalue);
           return windspeed;
@@ -155,14 +160,15 @@ Then(/^I should see the summarized view of most dominant wind speed of the day (
             windvalues = values.map(function(v){
               return parseInt(v, 10);
             });
-            console.log("windvalues are: "+windvalues);
-            console.log("wind speed is: "+windspeed);
+            console.log("wind speed in the summary is: "+windspeed);
+            console.log("wind speed details are: "+windvalues);
             return assert.equal(windspeed,windvalues[0]);
           });
         }); 
       });
     });
 });
+
 
 
 Then(/^I should be able to see all values are rounded off$/, function () {

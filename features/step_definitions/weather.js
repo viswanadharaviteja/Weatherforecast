@@ -74,8 +74,8 @@ Then(/^I should see the summarized view of min and max temparture of the day (.*
   var tempsumvalues;
   this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
 
-      daydetails[day-1].findElement(By.xpath(".//div[@class='summary']")).then(function(daytempsummary){
-       return daytempsummary.findElements(By.xpath(".//span[3]/span")).then(function(tempsummary){
+      daydetails[day-1].findElement(By.xpath("//div[@class='summary']")).then(function(daytempsummary){
+       return daytempsummary.findElements(By.xpath("//span[3]/span")).then(function(tempsummary){
         map(tempsummary, tempsummaryvalue => tempsummaryvalue.getAttribute("innerText"))
               .then(function(values) {
                 tempsumvalues = values.map(function(v) {
@@ -109,7 +109,7 @@ Then(/^I should see the summarized view of Aggregate rainfall of the day (.*)$/,
   var aggregateRainfall;
   this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
       daydetails[day-1].findElement(By.xpath(".//div[@class='summary']")).then(function(dayrainsummary){
-        return dayrainsummary.findElement(By.xpath(".//span[5]/span[1]")).then(function(rainsummary){
+        return dayrainsummary.findElement(By.xpath("//span[5]/span[1]")).then(function(rainsummary){
           rainsummary.getAttribute("innerText").then(function(rainsumvalue){
             aggregate = parseInt(rainsumvalue);
             return aggregate;
@@ -117,8 +117,8 @@ Then(/^I should see the summarized view of Aggregate rainfall of the day (.*)$/,
         });
       });
 
-    daydetails[day-1].findElement(By.xpath(".//div[@class='details']")).then(function(dayraindetails){
-     return dayraindetails.findElements(By.xpath(".//div[@class='detail']/span[5]/span[1]")).then(function(raindetails){
+    daydetails[day-1].findElement(By.xpath("//div[@class='details']")).then(function(dayraindetails){
+     return dayraindetails.findElements(By.xpath("//div[@class='detail']/span[5]/span[1]")).then(function(raindetails){
         map(raindetails, rainvalue => rainvalue.getAttribute("innerText"))
           .then(function(values) {
             rainvalues = values.map(function(v) {
@@ -139,8 +139,8 @@ Then(/^I should see the summarized view of most dominant wind speed of the day (
   var windvalues;
   this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
 
-      daydetails[day-1].findElement(By.xpath(".//div[@class='summary']")).then(function(daywindsummary){
-        return daywindsummary.findElement(By.xpath(".//span[4]/span[1]")).then(function(windsummary){
+      daydetails[day-1].findElement(By.xpath("//div[@class='summary']")).then(function(daywindsummary){
+        return daywindsummary.findElement(By.xpath("//span[4]/span[1]")).then(function(windsummary){
         windsummary.getAttribute("innerText").then(function(windsumvalue){
           windspeed = parseInt(windsumvalue);
           return windspeed;
@@ -155,6 +155,8 @@ Then(/^I should see the summarized view of most dominant wind speed of the day (
             windvalues = values.map(function(v){
               return parseInt(v, 10);
             });
+            console.log("windvalues are: "+windvalues);
+            console.log("wind speed is: "+windspeed);
             return assert.equal(windspeed,windvalues[0]);
           });
         }); 
@@ -165,35 +167,36 @@ Then(/^I should see the summarized view of most dominant wind speed of the day (
 
 Then(/^I should be able to see all values are rounded off$/, function () {
 
-  this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(daydetails){
+  this.driver.findElements(By.xpath("//div[@data-reactroot]/div")).then(function(details){
 
-    daydetails.forEach(function(daydetail){
-      daydetail.findElement(By.xpath("//div[@class='summary']")).then(function(daysummary){
-
-        daysummary.findElement(By.xpath("//span[5]/span[1]")).then(function(rainsummary){
+    details.forEach(function(daydetails){
+      daydetails.findElement(By.xpath("//div[@class='summary']")).then(function(summary){
+        // validating the rounded values of rain summary
+        summary.findElement(By.xpath("//span[5]/span[1]")).then(function(rainsummary){
           rainsummary.getAttribute("innerText").then(function(rainvalue){
             console.log('rainvalue',parseInt(rainvalue));
             return assert.equal(parseInt(rainvalue),Math.round(parseInt(rainvalue))); 
           });
         });
-        daysummary.findElement(By.xpath("//span[4]/span[1]")).then(function(windsummary){
+        // validating the rounded values of wind summary
+        summary.findElement(By.xpath("//span[4]/span[1]")).then(function(windsummary){
           windsummary.getAttribute("innerText").then(function(windvalue){
             console.log('windvalue',parseInt(windvalue));
             return assert.equal(parseInt(windvalue),Math.round(parseInt(windvalue))); 
           });
         });
-
-        daysummary.findElement(By.xpath("//span[3]/span")).then(function(tempsummary){
-          tempsummary.getAttribute("innerText").then(function(tempvalue){
-            console.log('tempvalue',parseInt(tempvalue));
-            return assert.equal(parseInt(tempvalue),Math.round(parseInt(tempvalue)));
+        // validating the rounded values of temperature summary
+        summary.findElement(By.xpath("//span[3]/span")).then(function(temperaturesummary){
+          temperaturesummary.getAttribute("innerText").then(function(temperaturevalue){
+            console.log('temperature value',parseInt(temperaturevalue));
+            return assert.equal(parseInt(temperaturevalue),Math.round(parseInt(temperaturevalue)));
           });
         });
       });
     });
-  });
-  
+  }); 
 return true;
+
 });
 Then(/^I should see the error message (.*)$/, function (value) {
   var selector = this.driver.findElement(By.xpath("//div[text()='"+value+"']"));
@@ -203,19 +206,19 @@ Then(/^I should see the error message (.*)$/, function (value) {
 });
 
 Then(/^I should see the summarized view of current weather condtion of the day$/,function () {
-  var conditionSummary;
+  var weatherSummary;
   this.driver.findElement(By.xpath("//div[@data-reactroot]/div/div[1]/span[2]/*")).then(function(condsummary){
        return condsummary.getAttribute("aria-label").then(function(condsumvalue){
-          conditionSummary = condsumvalue;
-          return conditionSummary;
+        weatherSummary = condsumvalue;
+          return weatherSummary;
         }); 
       });
 
    this.driver.findElement(By.xpath("//div[@data-reactroot]/div/div[2]/div[1]/span[2]/*")).then(function(conddetails){
-    return conddetails.getAttribute("aria-label").then(function(conddetailsvalue){
-        console.log('Current weather condition is ',conddetailsvalue);
-        console.log('Weather summary is ',conditionSummary);
-        return assert.equal(conditionSummary,conddetailsvalue);
+    return conddetails.getAttribute("aria-label").then(function(weatherdetails){
+        console.log('Current weather condition is ',weatherdetails);
+        console.log('Weather summary is ',weatherSummary);
+        return assert.equal(weatherSummary,weatherdetails);
       }); 
 
     });

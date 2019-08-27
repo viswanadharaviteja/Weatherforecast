@@ -3,6 +3,7 @@ var seleniumWebdriver = require('selenium-webdriver');
 var chrome = require('Selenium-webdriver/chrome');
 
 function CustomWorld({attach}) {
+  console.log("Browser is set as chrome");
   this.attach=attach;
   this.driver = new seleniumWebdriver.Builder()
     .forBrowser('chrome')

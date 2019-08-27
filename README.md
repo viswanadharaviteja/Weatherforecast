@@ -51,4 +51,4 @@ To start up the application:
     
 To run a the feature
 
-    $ ./node_modules/.bin/cucumber-js
+    $ ./node_modules/.bin/cucumber-js or npm run test

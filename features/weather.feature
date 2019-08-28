@@ -48,7 +48,7 @@ Scenario Outline: To verify the application is hiding the 3 hourly forecast on s
   
 
 
-Scenario Outline:  To verify the application is showing the 3 hour data for daily forecast of current condition, wind speed, direction, aggregate rainfall and temperatures.
+Scenario Outline:  To verify the application is showing the 3 hour data for daily forecast of current weather condition.
 
   Given I launch the weather forecast page
   When I enter the city name as <cityname>
@@ -56,8 +56,59 @@ Scenario Outline:  To verify the application is showing the 3 hour data for dail
   When I select day <day>
   Then I should be able to see 3 hourly forecast for that day <day>
   Then I should see the summarized view of current weather condtion of the day
-  Then I should see the summarized view of min and max temparture of the day <day>
+  
+  Examples:
+  | cityname  | day |
+  | edinburgh |  5  |
+  | aberdeen  |  1  |
+  | dundee    |  3  |
+  | perth     |  4  |
+  | stirling  |  5  |
+  | glasgow   |  1  |
+
+Scenario Outline:  To verify the application is showing the 3 hour data for daily forecast of wind speed.
+
+  Given I launch the weather forecast page
+  When I enter the city name as <cityname>
+  Then I should see the weather forecast data for five days
+  When I select day <day>
+  Then I should be able to see 3 hourly forecast for that day <day>
   Then I should see the summarized view of most dominant wind speed of the day <day>
+  
+  Examples:
+  | cityname  | day |
+  | edinburgh |  5  |
+  | aberdeen  |  1  |
+  | dundee    |  3  |
+  | perth     |  4  |
+  | stirling  |  5  |
+  | glasgow   |  1  |
+
+Scenario Outline:  To verify the application is showing the 3 hour data for min and max temperatures of the day.
+
+  Given I launch the weather forecast page
+  When I enter the city name as <cityname>
+  Then I should see the weather forecast data for five days
+  When I select day <day>
+  Then I should be able to see 3 hourly forecast for that day <day>
+  Then I should see the summarized view of min and max temparture of the day <day>
+  
+  Examples:
+  | cityname  | day |
+  | edinburgh |  5  |
+  | aberdeen  |  1  |
+  | dundee    |  3  |
+  | perth     |  4  |
+  | stirling  |  5  |
+  | glasgow   |  1  |
+
+Scenario Outline:  To verify the application is showing the 3 hour data for aggregate rainfall.
+
+  Given I launch the weather forecast page
+  When I enter the city name as <cityname>
+  Then I should see the weather forecast data for five days
+  When I select day <day>
+  Then I should be able to see 3 hourly forecast for that day <day>
   Then I should see the summarized view of Aggregate rainfall of the day <day>
   
   Examples:

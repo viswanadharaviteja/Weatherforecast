@@ -52,3 +52,14 @@ To start up the application:
 To run a the feature
 
     $ ./node_modules/.bin/cucumber-js or npm run test
+
+Scenarios covered:
+Scenario1: To verify 5 days weather forecast is displayed for the city entered.
+Scenario2: To verify the application displays 3 hourly forecast on selecting a day.
+Scenario3: To verify the application is hiding the 3 hourly forecast on selecting the same day again.
+Scenario4: To verify the application is showing the 3 hour data for daily forecast of current weather condition.
+Scenario5: To verify the application is showing the 3 hour data for daily forecast of wind speed.
+Scenario6: To verify the application is showing the 3 hour data for daily forecast of aggregate rainfall.
+Scenario7: To verify the application is showing the 3 hour data for daily forecast of temperatures.
+Scenario8: To verify all the values displayed on the application are rounded off to the nearest value.
+Scenario9: To verify the error message displayed if city is incorrect.

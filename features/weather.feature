@@ -4,7 +4,22 @@ Feature: Display the 5 day weather forecast of the selected place
 
     Given I launch the weather forecast page
     When I enter the city name as <cityname>
-    Then I should see the weather forecast data for five days 
+    Then I should see the weather forecast data for five days
+
+    Examples:
+    | cityname  |
+    | edinburgh |
+    | aberdeen |
+    | dundee |
+    | perth |
+    | stirling |
+    | glasgow |
+
+  Scenario Outline: To verify only 5 days weather forecast is displayed for the city entered.
+
+    Given I launch the weather forecast page
+    When I enter the city name as <cityname>
+    Then I should not see the weather forecast data for more than five days
 
     Examples:
     | cityname  |
@@ -46,8 +61,6 @@ Scenario Outline: To verify the application is hiding the 3 hourly forecast on s
   | cityname  | day |
   | aberdeen  |  1  |
   
-
-
 Scenario Outline:  To verify the application is showing the 3 hour data for daily forecast of current weather condition.
 
   Given I launch the weather forecast page

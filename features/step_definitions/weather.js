@@ -31,6 +31,26 @@ Then(/^I should see the weather forecast data for five days$/, function () {
   }
 });
 
+Then(/^I should not see the weather forecast data for more than five days$/, function () {
+
+  var rainvalues;
+  this.driver.findElements(By.xpath("//div[@data-reactroot]/div/div/span[1]/span[1]")).then(function(daydetails){
+           map(daydetails, rainvalue => rainvalue.getAttribute("innerText"))
+          .then(function(values) {
+            rainvalues = values;
+          console.log('rainvalues are ',rainvalues);
+          console.log('aggregateRainfall ',rainvalues.length);
+          if(rainvalues.length===5){
+            console.log("Application is displaying 5 days or weather forecast");
+          }
+          else{
+            console.log("Application is displaying more or less than 5 days of weather forecast");
+          }
+        });
+      }); 
+    });
+
+
 When(/^I select day (.*)$/, function (val) {
   this.driver.findElement(By.xpath("//*[@data-test='day-"+val+"']")).click();
   console.log("clicked on the day");

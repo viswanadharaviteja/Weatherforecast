@@ -63,3 +63,4 @@ Scenario6: To verify the application is showing the 3 hour data for daily foreca
 Scenario7: To verify the application is showing the 3 hour data for daily forecast of temperatures.
 Scenario8: To verify all the values displayed on the application are rounded off to the nearest value.
 Scenario9: To verify the error message displayed if city is incorrect.
+Scenario10: To verify only 5 days weather forecast is displayed for the city entered.
